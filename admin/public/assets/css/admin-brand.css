@@ -1,0 +1,800 @@
+/*
+ * admin-brand.css  —  v3
+ * Paleta "Electric Underground" — idêntica ao index principal.
+ * Carregado por último no <head> do main.php.
+ *
+ * Paleta:
+ *   --bg        #080810   (fundo principal)
+ *   --panel     #0e0f1c   (sidebar / topbar)
+ *   --accent    #5affd6   (ciano brilhante)
+ *   --accent2   #9d7aff   (roxo)
+ *   --text      #eef0f8   (texto claro)
+ *   --muted     #8892aa   (texto secundário)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap');
+
+/* ════════════════════════════════════════════
+   1. Variáveis globais
+════════════════════════════════════════════ */
+:root {
+  /* Tamanho de fonte base aumentado */
+  --bs-body-font-size:             0.9375rem;    /* 15px */
+  --bs-body-line-height:           1.6;
+
+  /* Topbar */
+  --bs-topbar-bg:                #0e0f1c;
+  --bs-topbar-b-border-color:    rgba(255, 255, 255, 0.06);
+  --bs-topbar-nav-icon-color:    #8892aa;
+  --bs-topbar-nav-icon-bg:       rgba(90, 255, 214, 0.07);
+
+  /* Sidebar */
+  --bs-startbar-bg:              #0e0f1c;
+  --bs-startbar-e-border-color:  rgba(255, 255, 255, 0.06);
+  --bs-menu-label-color:         #8892aa;
+  --bs-menu-link-color:          #b0b8cc;
+  --bs-menu-link-hover-color:    #5affd6;
+  --bs-menu-link-active-bg-color: rgba(90, 255, 214, 0.09);
+  --bs-menu-icon-color:          #8892aa;
+
+  /* Tabela */
+  --bs-table-head-bg:            #13141f;
+
+  /* Fonte */
+  --bs-body-font-family:         "Space Grotesk", system-ui, -apple-system, sans-serif;
+
+  /* Bootstrap primary */
+  --bs-primary:                  #5affd6;
+  --bs-primary-rgb:              90, 255, 214;
+  --bs-link-color:               #5affd6;
+  --bs-link-hover-color:         #2ce8b8;
+
+  /* Bootstrap body */
+  --bs-body-bg:                  #080810;
+  --bs-body-color:               #eef0f8;
+  --bs-border-color:             rgba(255, 255, 255, 0.06);
+  --bs-card-bg:                  #0e0f1c;
+  --bs-card-border-color:        rgba(255, 255, 255, 0.06);
+  --bs-modal-bg:                 #0e0f1c;
+  --bs-modal-border-color:       rgba(255, 255, 255, 0.08);
+  --bs-dropdown-bg:              #13141f;
+  --bs-dropdown-border-color:    rgba(255, 255, 255, 0.08);
+  --bs-input-bg:                 rgba(255, 255, 255, 0.04);
+  --bs-input-border-color:       rgba(255, 255, 255, 0.10);
+  --bs-input-color:              #eef0f8;
+}
+
+/* ════════════════════════════════════════════
+   2. Body & página
+════════════════════════════════════════════ */
+body {
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif !important;
+  background-color: #080810 !important;
+  color: #eef0f8 !important;
+}
+
+
+/* ════════════════════════════════════════════
+   3. Topbar
+════════════════════════════════════════════ */
+.topbar {
+  background-color: #0e0f1c !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.topbar .topbar-custom .nav-link.nav-icon {
+  border-radius: 10px !important;
+  transition: background 180ms, color 180ms !important;
+}
+
+.topbar .topbar-custom .nav-link.nav-icon:hover {
+  background: rgba(90, 255, 214, 0.09) !important;
+}
+
+.topbar .topbar-custom .nav-link.nav-icon i {
+  color: #8892aa !important;
+}
+
+.topbar .topbar-custom .nav-link.nav-icon:hover i {
+  color: #5affd6 !important;
+}
+
+/* Logo / wordmark na topbar */
+.topbar .brand .logo-lg span,
+.topbar .brand .logo-sm span {
+  color: #5affd6 !important;
+}
+
+/* ════════════════════════════════════════════
+   4. Sidebar / Startbar
+════════════════════════════════════════════ */
+.startbar {
+  background-color: #0e0f1c !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 2px 0 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Área do logo */
+.startbar .brand {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: linear-gradient(135deg, #0e0f1c 0%, #13141f 100%) !important;
+}
+
+/* Rótulos de seção */
+.startbar .startbar-menu .menu-label {
+  color: #8892aa !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+}
+
+/* Links do menu */
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link {
+  color: #b0b8cc !important;
+  border-radius: 10px !important;
+  transition: background 160ms, color 160ms !important;
+}
+
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link i,
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link .menu-icon {
+  color: #8892aa !important;
+  transition: color 160ms !important;
+}
+
+/* Hover */
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link:hover {
+  color: #5affd6 !important;
+  background: rgba(90, 255, 214, 0.07) !important;
+}
+
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link:hover i,
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link:hover .menu-icon {
+  color: #5affd6 !important;
+}
+
+/* Item ativo */
+.startbar .startbar-menu .navbar-nav .nav-item.active .nav-link.active {
+  color: #5affd6 !important;
+  background-color: rgba(90, 255, 214, 0.09) !important;
+  font-weight: 600 !important;
+}
+
+.startbar .startbar-menu .navbar-nav .nav-item.active .nav-link.active .menu-icon,
+.startbar .startbar-menu .navbar-nav .nav-item.active .nav-link.active i {
+  color: #5affd6 !important;
+}
+
+/* Seta do collapse */
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link[data-bs-toggle=collapse][aria-expanded=true]:after {
+  color: #5affd6 !important;
+}
+
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link[data-bs-toggle=collapse][aria-expanded=true] i,
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link[data-bs-toggle=collapse][aria-expanded=true] span {
+  color: #5affd6 !important;
+}
+
+/* ════════════════════════════════════════════
+   5. Cards
+════════════════════════════════════════════ */
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 16px !important;
+  background-color: #0e0f1c !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35),
+              0 0 0 1px rgba(90, 255, 214, 0.03) inset !important;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Linha sutil no topo do card */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(90, 255, 214, 0.18), transparent);
+  pointer-events: none;
+}
+
+.card .card-header {
+  background: linear-gradient(135deg, #13141f 0%, #0e0f1c 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.card .card-header .card-title {
+  color: #eef0f8 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+
+.card .card-body {
+  background-color: #0e0f1c !important;
+  color: #eef0f8 !important;
+}
+
+/* ════════════════════════════════════════════
+   6. Botões primários
+════════════════════════════════════════════ */
+.btn-primary {
+  background: linear-gradient(135deg, #5affd6, #2ce8b8) !important;
+  border-color: #5affd6 !important;
+  color: #050a09 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 20px rgba(90, 255, 214, 0.28) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background: linear-gradient(135deg, #2ce8b8, #3dbfa0) !important;
+  border-color: #2ce8b8 !important;
+  color: #050a09 !important;
+  box-shadow: 0 6px 28px rgba(90, 255, 214, 0.40) !important;
+}
+
+.bg-primary.text-white {
+  background: linear-gradient(135deg, #5affd6, #2ce8b8) !important;
+  color: #050a09 !important;
+}
+
+.btn-outline-primary {
+  color: #5affd6 !important;
+  border-color: rgba(90, 255, 214, 0.4) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: rgba(90, 255, 214, 0.1) !important;
+  color: #5affd6 !important;
+  border-color: #5affd6 !important;
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  color: #eef0f8 !important;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(90, 255, 214, 0.3) !important;
+}
+
+/* ════════════════════════════════════════════
+   7. Tabela
+════════════════════════════════════════════ */
+.table {
+  color: #eef0f8 !important;
+}
+
+.table thead th {
+  background-color: #13141f !important;
+  color: #b0b8cc !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* table-dark */
+.table-dark thead th,
+thead.table-dark th {
+  background: linear-gradient(135deg, #13141f 0%, #1a1b2e 100%) !important;
+  color: #5affd6 !important;
+  border-color: rgba(90, 255, 214, 0.15) !important;
+}
+
+.table > :not(caption) > * > * {
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: transparent !important;
+  color: #f0f0f0 !important;
+}
+
+.table tbody tr:hover > * {
+  background-color: rgba(90, 255, 214, 0.04) !important;
+  color: #eef0f8 !important;
+}
+
+/* Linhas alternadas */
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* ════════════════════════════════════════════
+   8. Modal
+════════════════════════════════════════════ */
+.modal-content {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  background-color: #0e0f1c !important;
+  overflow: hidden !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6),
+              0 0 0 1px rgba(90, 255, 214, 0.06) inset !important;
+}
+
+/* Faixa colorida no topo */
+.modal-content::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #5affd6, #9d7aff, transparent);
+  flex-shrink: 0;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #13141f 0%, #0e0f1c 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.modal-header .modal-title {
+  color: #eef0f8 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+
+.modal-header .btn-close {
+  filter: invert(1) brightness(0.6) !important;
+  font-size: 14px !important;
+  opacity: 0.5;
+  transition: opacity 180ms, transform 180ms !important;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+  filter: invert(1) brightness(1) sepia(1) hue-rotate(120deg) saturate(3) !important;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  background-color: #0e0f1c !important;
+  color: #eef0f8 !important;
+}
+
+.modal-footer {
+  background: #13141f !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ════════════════════════════════════════════
+   9. Formulários
+════════════════════════════════════════════ */
+
+/* Labels */
+.form-label,
+label {
+  color: #b0b8cc !important;
+  font-weight: 600 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.02em !important;
+  margin-bottom: 0.4rem !important;
+}
+
+/* Inputs, textareas e selects */
+.form-control,
+.form-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"],
+input[type="week"],
+textarea,
+select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  color: #eef0f8 !important;
+  font-family: "Space Grotesk", system-ui, sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  padding: 0.55rem 0.95rem !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Placeholder */
+.form-control::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: rgba(136, 146, 170, 0.55) !important;
+}
+
+/* Foco */
+.form-control:focus,
+.form-select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(90, 255, 214, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(90, 255, 214, 0.12) !important;
+  color: #eef0f8 !important;
+  outline: none !important;
+}
+
+/* Disabled */
+.form-control:disabled,
+.form-control[readonly],
+.form-select:disabled,
+input:disabled,
+textarea:disabled {
+  background-color: rgba(255, 255, 255, 0.025) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  color: #8892aa !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+}
+
+/* Select: seta customizada */
+.form-select,
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238892aa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.85rem center !important;
+  background-size: 14px !important;
+  padding-right: 2.5rem !important;
+}
+
+/* Opcoes do select */
+.form-select option,
+select option {
+  background-color: #13141f !important;
+  color: #eef0f8 !important;
+}
+
+/* Textarea */
+textarea.form-control,
+textarea {
+  resize: vertical !important;
+  min-height: 100px !important;
+}
+
+/* Input group */
+.input-group-text {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  color: #8892aa !important;
+  font-size: 0.88rem !important;
+  border-radius: 10px !important;
+}
+
+.input-group > .form-control,
+.input-group > .form-select {
+  border-radius: 0 !important;
+}
+.input-group > :first-child { border-radius: 10px 0 0 10px !important; }
+.input-group > :last-child  { border-radius: 0 10px 10px 0 !important; }
+.input-group > :only-child  { border-radius: 10px !important; }
+
+.input-group:focus-within .input-group-text {
+  border-color: rgba(90, 255, 214, 0.45) !important;
+  color: #5affd6 !important;
+}
+
+/* Checkbox e radio */
+.form-check-input {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 4px !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  cursor: pointer !important;
+}
+.form-check-input:checked {
+  background-color: #5affd6 !important;
+  border-color: #5affd6 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23050a09' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M4 10l5 5 7-8'/%3E%3C/svg%3E") !important;
+}
+.form-check-input[type="radio"] {
+  border-radius: 50% !important;
+}
+.form-check-input[type="radio"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23050a09'/%3E%3C/svg%3E") !important;
+}
+.form-check-input:focus {
+  box-shadow: 0 0 0 3px rgba(90, 255, 214, 0.18) !important;
+  border-color: rgba(90, 255, 214, 0.5) !important;
+}
+.form-check-label {
+  color: #b0b8cc !important;
+  cursor: pointer !important;
+  font-size: 0.9rem !important;
+}
+
+/* Switch */
+.form-switch .form-check-input {
+  border-radius: 999px !important;
+  width: 2rem !important;
+  height: 1rem !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%238892aa'/%3E%3C/svg%3E") !important;
+}
+.form-switch .form-check-input:checked {
+  background-color: rgba(90, 255, 214, 0.25) !important;
+  border-color: rgba(90, 255, 214, 0.4) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%235affd6'/%3E%3C/svg%3E") !important;
+}
+
+/* Search input */
+input[type="search"]::-webkit-search-cancel-button {
+  filter: invert(1) brightness(0.6) !important;
+}
+
+/* Range */
+input[type="range"] {
+  accent-color: #5affd6 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+/* Form text / hint */
+.form-text,
+.text-muted {
+  color: #8892aa !important;
+  font-size: 0.8rem !important;
+}
+
+/* Validation states */
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: rgba(90, 255, 214, 0.5) !important;
+  background-image: none !important;
+}
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+  border-color: rgba(255, 107, 107, 0.6) !important;
+  background-image: none !important;
+}
+.valid-feedback   { color: #5affd6 !important; font-size: 0.8rem !important; }
+.invalid-feedback { color: #ff6b6b !important; font-size: 0.8rem !important; }
+
+/* ════════════════════════════════════════════
+   10. Badges
+════════════════════════════════════════════ */
+.badge.bg-primary {
+  background: rgba(90, 255, 214, 0.15) !important;
+  color: #5affd6 !important;
+  border: 1px solid rgba(90, 255, 214, 0.3) !important;
+}
+
+.badge.bg-success,
+.badge.bg-success-subtle {
+  background: rgba(90, 255, 214, 0.12) !important;
+  color: #5affd6 !important;
+  border: 1px solid rgba(90, 255, 214, 0.25) !important;
+}
+
+.badge.bg-secondary,
+.badge.bg-secondary-subtle {
+  background: rgba(136, 146, 170, 0.15) !important;
+  color: #8892aa !important;
+  border: 1px solid rgba(136, 146, 170, 0.2) !important;
+}
+
+.badge.bg-danger,
+.badge.bg-danger-subtle {
+  background: rgba(255, 107, 107, 0.12) !important;
+  color: #ff6b6b !important;
+  border: 1px solid rgba(255, 107, 107, 0.25) !important;
+}
+
+.badge.bg-warning,
+.badge.bg-warning-subtle {
+  background: rgba(240, 192, 96, 0.12) !important;
+  color: #f0c060 !important;
+  border: 1px solid rgba(240, 192, 96, 0.25) !important;
+}
+
+/* ════════════════════════════════════════════
+   11. Alerts
+════════════════════════════════════════════ */
+.alert {
+  border-radius: 12px !important;
+  border-width: 1px !important;
+}
+
+.alert-success {
+  background: rgba(90, 255, 214, 0.08) !important;
+  border-color: rgba(90, 255, 214, 0.3) !important;
+  color: #5affd6 !important;
+}
+
+.alert-danger {
+  background: rgba(255, 107, 107, 0.08) !important;
+  border-color: rgba(255, 107, 107, 0.3) !important;
+  color: #ff6b6b !important;
+}
+
+.alert-warning {
+  background: rgba(240, 192, 96, 0.08) !important;
+  border-color: rgba(240, 192, 96, 0.3) !important;
+  color: #f0c060 !important;
+}
+
+.alert-info {
+  background: rgba(157, 122, 255, 0.08) !important;
+  border-color: rgba(157, 122, 255, 0.3) !important;
+  color: #9d7aff !important;
+}
+
+/* ════════════════════════════════════════════
+   12. Dropdown
+════════════════════════════════════════════ */
+.dropdown-menu {
+  background-color: #13141f !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5),
+              0 0 0 1px rgba(90, 255, 214, 0.04) inset !important;
+  padding: 0.35rem !important;
+}
+
+.dropdown-item {
+  border-radius: 8px !important;
+  font-size: 0.88rem !important;
+  color: #b0b8cc !important;
+  transition: background 150ms, color 150ms !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: rgba(90, 255, 214, 0.08) !important;
+  color: #5affd6 !important;
+}
+
+.dropdown-item.text-danger:hover {
+  background: rgba(255, 107, 107, 0.08) !important;
+  color: #ff6b6b !important;
+}
+
+.dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.bg-secondary-subtle.dropdown-item {
+  background: rgba(90, 255, 214, 0.04) !important;
+  border-radius: 8px !important;
+}
+
+/* ════════════════════════════════════════════
+   13. Paginação
+════════════════════════════════════════════ */
+.page-link {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #8892aa !important;
+}
+
+.page-link:hover {
+  background-color: rgba(90, 255, 214, 0.08) !important;
+  border-color: rgba(90, 255, 214, 0.3) !important;
+  color: #5affd6 !important;
+}
+
+.page-item.active .page-link {
+  background-color: rgba(90, 255, 214, 0.15) !important;
+  border-color: rgba(90, 255, 214, 0.4) !important;
+  color: #5affd6 !important;
+}
+
+/* ════════════════════════════════════════════
+   14. Scrollbar
+════════════════════════════════════════════ */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(90, 255, 214, 0.2); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(90, 255, 214, 0.4); }
+
+/* ════════════════════════════════════════════
+   15. Textos genéricos
+════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  color: #eef0f8 !important;
+}
+
+p, span, label, li {
+  color: inherit;
+}
+
+.text-muted {
+  color: #8892aa !important;
+}
+
+a {
+  color: #5affd6 !important;
+}
+
+a:hover {
+  color: #2ce8b8 !important;
+}
+
+/* Page content */
+.page-content {
+  padding-top: 1.5em !important;
+}
+
+/* Separadores / dividers */
+hr {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ════════════════════════════════════════════
+   16. Tamanho de fonte — overrides específicos
+════════════════════════════════════════════ */
+body,
+.form-control,
+.form-select,
+.btn,
+.nav-link,
+.dropdown-item,
+td, th,
+.card-body,
+.card-title,
+.list-group-item {
+  font-size: 0.9375rem !important; /* 15px */
+}
+
+/* Topbar e menu lateral levemente menores */
+.topbar .topbar-custom .nav-link,
+.startbar .startbar-menu .navbar-nav .nav-item .nav-link {
+  font-size: 0.9rem !important;
+}
+
+/* Tabela: cabeçalho */
+.table thead th {
+  font-size: 0.78rem !important;
+}
+
+/* Table body */
+.table tbody td {
+  font-size: 0.9rem !important;
+  vertical-align: middle !important;
+}
+
+/* Títulos dos cards */
+.card .card-header .card-title {
+  font-size: 1rem !important;
+}
+
+/* Pequenas labels, hints */
+.form-text,
+.badge,
+small,
+.text-muted {
+  font-size: 0.8rem !important;
+}
+
+/* Botoes */
+.btn {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+}
+
+/* Modal titulo */
+.modal-header .modal-title {
+  font-size: 1rem !important;
+}
+
+/* Headings da pagina */
+.page-title,
+h4.page-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #eef0f8 !important;
+}

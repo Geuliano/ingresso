@@ -1,0 +1,38 @@
+# Segredos e ambiente
+.env
+.env.*
+!.env.example
+
+# Dependencias Composer
+/vendor/
+
+# Logs
+*.log
+/storage/logs/*
+/error_log
+
+# Editores / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Builds / coverage
+/build/
+/coverage/
+.phpunit.result.cache
+
+# Banco local
+*.sqlite
+*.sqlite-journal
+
+# Backups
+*.bak
+*.swp
+*~
+
+# Scripts temporários de setup (apague após usar)
+public/run-migration-*.php
+public/mp-setup-*.php
+database/run-migration-web.php
+database/mp-setup-check.php

@@ -1,0 +1,38 @@
+RewriteEngine On
+RewriteBase /ingresso/
+
+# IMPORTANTE: Variaveis sensiveis (APP_KEY, N8N_AUTH_TOKEN, etc.) NAO ficam mais aqui.
+# Defina-as no arquivo .env (ver .env.example). O loader em app/env_loader.php
+# carrega o .env automaticamente. Variaveis exportadas via SetEnv ou no painel
+# de hospedagem continuam tendo precedencia sobre .env.
+#
+# Para forcar HTTPS em producao, descomente:
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Esconder informacoes do servidor
+Options -Indexes
+ServerSignature Off
+
+# URLs amigaveis: /login -> /public/login.php (so reescreve se o .php existir em public)
+RewriteCond %{REQUEST_URI} !^/ingresso/public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/ingresso/public/$1.php -f
+RewriteRule ^(.+?)/?$ public/$1.php [L,QSA]
+
+# Fallback para servir assets/paginas existentes em /public
+# Condições: não começar com /public/, não ser o admin, e o arquivo/dir não existir diretamente
+RewriteCond %{REQUEST_URI} !^/ingresso/public/
+RewriteCond %{REQUEST_URI} !^/ingresso/admin/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L,QSA]
+
+# Bloquear acesso direto a arquivos sensiveis
+<FilesMatch "^(\.env|\.env\..*|composer\.(json|lock)|phpunit\.xml.*|\.git.*)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquear acesso ao diretorio /database e /src via web
+RedirectMatch 404 "^/ingresso/(database|src|tests|vendor)/"
