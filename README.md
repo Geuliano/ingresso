@@ -1,149 +1,117 @@
 # Ingresso — Pulse Festival
 
-Plataforma de venda de ingressos para o Pulse Festival. Backend em PHP 8 (sem framework), MySQL/MariaDB, JS vanilla no front, integração com n8n para envio de códigos de verificação.
+Plataforma de venda de ingressos do Pulse Festival. PHP 8 sem framework, MySQL, JS vanilla no front. Os códigos de verificação saem por um fluxo no n8n (e-mail/WhatsApp).
 
-## Stack
+## Requisitos
 
-- PHP 8.1+ (PDO, cURL, mbstring, iconv)
-- MySQL/MariaDB
-- Apache com `mod_rewrite`
-- JS vanilla (sem build), CSS único
-- (opcional) Composer + PHPUnit para testes
+- PHP 8.1+ com `pdo_mysql`, `curl`, `mbstring` e `iconv`
+- MySQL 5.7+ ou MariaDB 10.4+
+- Apache com `mod_rewrite` e `AllowOverride All` no diretório do projeto
+- Composer só para os testes — a aplicação em si não tem dependência externa
 
-## Estrutura
-
-```
-.
-├── app/                # PHP "legado" (require_once-based)
-│   ├── bootstrap.php   # carrega .env, autoload, helpers
-│   ├── env_loader.php  # leitor de .env sem dependencia
-│   ├── helpers.php     # url(), asset(), e(), send_security_headers()
-│   ├── db.php          # singleton PDO
-│   ├── auth.php        # sessao, CSRF, codigos, remember-me
-│   ├── ingressos.php   # acesso a lotes/ingressos
-│   ├── n8n.php         # webhook de envio de codigos
-│   └── views/          # layouts e paginas
-├── src/                # Novo codigo namespaced (PSR-4 App\)
-│   ├── Auth/           # AuthService, VerificationService, RememberTokenService
-│   ├── Http/           # JsonResponse
-│   ├── Ingresso/       # BatchStatus
-│   └── Support/        # Env, Validator
-├── public/             # webroot (assets, paginas, /api)
-├── admin/              # painel administrativo (separado)
-├── database/
-│   ├── migrate.php     # CLI: php database/migrate.php
-│   └── migrations/     # *.sql aplicadas em ordem
-├── tests/              # PHPUnit (PSR-4 Tests\)
-│   ├── bootstrap.php   # autoloader manual de testes
-│   └── Unit/
-├── .env.example        # template - copie para .env
-├── .gitignore
-├── composer.json
-└── phpunit.xml.dist
-```
-
-## Setup
-
-1. **Clone e configure ambiente**
-
-   ```bash
-   cp .env.example .env
-   # Gere uma APP_KEY forte (32+ chars):
-   php -r "echo bin2hex(random_bytes(32)) . PHP_EOL;"
-   # Cole a saida em APP_KEY=... no .env
-   ```
-
-   Edite `.env` com as credenciais do seu banco, URL base, etc.
-
-2. **Aponte o Apache para o diretorio**
-
-   No `httpd.conf` ou `apache2.conf` garanta que o `mod_rewrite` esta ativo e que o `AllowOverride All` esta habilitado para o diretorio do projeto. Em XAMPP basta colocar o projeto em `htdocs/`.
-
-3. **Crie o banco e rode as migrations**
-
-   ```sql
-   CREATE DATABASE ingresso CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
-
-   ```bash
-   php database/migrate.php
-   ```
-
-   Para apenas listar o que seria aplicado:
-
-   ```bash
-   php database/migrate.php --status
-   ```
-
-4. **(Opcional) Composer + testes**
-
-   ```bash
-   composer install
-   composer test
-   ```
-
-   Sem o Composer voce ainda pode rodar os testes via PHPUnit phar:
-
-   ```bash
-   wget https://phar.phpunit.de/phpunit-10.phar -O phpunit
-   chmod +x phpunit
-   ./phpunit --bootstrap tests/bootstrap.php tests/Unit
-   ```
-
-## Variaveis de ambiente
-
-A precedencia e: `$_SERVER` (incluindo Apache `SetEnv`) > `$_ENV` > `.env` > default.
-
-Variavel | Default | Descricao
---- | --- | ---
-`APP_KEY` | (obrigatoria) | Segredo HMAC dos codigos de verificacao. 32+ chars hex.
-`APP_ENV` | `production` | `local`, `staging` ou `production`. Em `local` o DDL runtime fica ativo.
-`APP_DEBUG` | `false` | Liga erros visiveis.
-`APP_TIMEZONE` | `America/Porto_Velho` | Timezone usado nos calculos de status.
-`DB_*` | varia | Credenciais MySQL.
-`VERIFICATION_*` | ver `.env.example` | Tamanho do codigo, expiracao, cooldown, tentativas.
-`DEBUG_EXPOSE_CODES` | `false` | **Apenas dev.** Expoe codigos via API.
-`N8N_*` | varia | Webhook de envio de codigos (email/WhatsApp).
-
-## Seguranca
-
-Algumas decisoes ja aplicadas (ver tambem `ANALISE_MELHORIAS.md`):
-
-- **Segredos fora do repositorio.** `.env` esta no `.gitignore`. O `.htaccess` nao contem mais valores reais.
-- **Cabecalhos de hardening.** `app/helpers.php::send_security_headers()` envia CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. Chamado pelo layout base e por endpoints JSON.
-- **XSS no front.** Dados vindos do servidor sao injetados via `textContent` / `document.createElement` (helpers em `public/assets/js/common.js`). NUNCA use `innerHTML` com strings interpoladas de dados de usuario/banco.
-- **CSRF.** Todos os endpoints `POST` em `/public/api/` validam `csrf_token` via `validate_csrf_or_fail()`.
-- **Sessoes.** Cookies `HttpOnly`, `Secure` quando HTTPS, `SameSite=Lax` para sessao e `Strict` para remember-token. `session_regenerate_id(true)` apos login.
-- **Remember-me.** Selector/validator com rotacao a cada uso (modelo Paragon Initiative).
-- **Codigos de verificacao.** Armazenados como HMAC-SHA256 da `APP_KEY`, com tentativas decrementadas, expiracao, cooldown e rate-limit por IP.
-- **Account takeover.** `register.php` nao sobrescreve dados de contas existentes nao verificadas com identidade diferente (ver commit que corrigiu o bug).
-
-## Adicionando uma nova migration
+## Subindo local
 
 ```bash
-# database/migrations/0003_orders.sql
-CREATE TABLE IF NOT EXISTS orders ( ... );
+cp .env.example .env
+php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
 ```
 
-Depois rode:
+Cola a saída em `APP_KEY`. Sem ela a verificação não funciona: os códigos são gravados como HMAC dessa chave, então trocar a `APP_KEY` depois invalida todos os códigos pendentes.
+
+Banco:
+
+```sql
+CREATE DATABASE ingresso CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+```bash
+php database/migrate.php            # aplica
+php database/migrate.php --status   # só lista o que falta
+```
+
+O webroot é `public/`. Em XAMPP dá pra jogar o projeto direto em `htdocs/` e acessar pela subpasta — é o que a maioria faz aqui. Em VPS, aponte o `DocumentRoot` para `public/` e confira a `APP_URL` no `.env`, senão os helpers `url()`/`asset()` geram link quebrado.
+
+Testes:
+
+```bash
+composer install
+composer test
+```
+
+Sem Composer, o phar resolve:
+
+```bash
+wget https://phar.phpunit.de/phpunit-10.phar -O phpunit && chmod +x phpunit
+./phpunit --bootstrap tests/bootstrap.php tests/Unit
+```
+
+## Variáveis de ambiente
+
+A precedência é `$_SERVER` (inclui `SetEnv` do Apache) → `$_ENV` → `.env` → default. Isso importa principalmente em ambiente compartilhado, onde o Apache sobrescreve o `.env` sem avisar.
+
+| Variável | Default | Observação |
+| --- | --- | --- |
+| `APP_KEY` | — | Obrigatória. 32+ chars hex. |
+| `APP_ENV` | `production` | Em `local` o DDL em runtime fica ativo. |
+| `APP_DEBUG` | `false` | |
+| `APP_TIMEZONE` | `America/Porto_Velho` | Usado no cálculo de status dos lotes. |
+| `DB_*` | — | Credenciais MySQL. |
+| `VERIFICATION_*` | ver `.env.example` | Tamanho do código, expiração, cooldown, tentativas. |
+| `DEBUG_EXPOSE_CODES` | `false` | Devolve o código na resposta da API. **Nunca** em produção. |
+| `N8N_*` | — | Webhook de envio. Se estiver vazio o envio falha silencioso. |
+
+## Como o código está organizado
+
+Tem duas pastas fazendo a mesma coisa, e isso é histórico: `app/` é o código antigo, baseado em `require_once` e função global; `src/` é o novo, PSR-4 sob `App\`. A migração está no meio do caminho — código novo vai em `src/`, e as funções de `app/` deveriam ser wrappers finos das classes, mas boa parte ainda tem lógica dentro.
+
+O que vale saber antes de abrir qualquer coisa:
+
+- `app/bootstrap.php` — carrega `.env`, autoload e helpers. Entra em tudo.
+- `app/auth.php` — sessão, CSRF, remember-me e códigos. É o arquivo mais bagunçado do projeto.
+- `app/helpers.php` — `url()`, `asset()`, `e()`, `send_security_headers()`.
+- `src/Auth/` — `AuthService`, `VerificationService`, `RememberTokenService`. É pra onde `app/auth.php` está indo.
+- `public/api/` — endpoints JSON.
+- `admin/` — painel administrativo, com bootstrap próprio e quase nenhuma documentação.
+- `database/migrations/` — `.sql` aplicados em ordem alfabética.
+
+## Coisas que é fácil quebrar sem querer
+
+- **`innerHTML` com dado do banco.** Use `textContent` ou os helpers `el()`/`escapeHtml()` de `public/assets/js/common.js`. Já teve XSS aqui, não repete.
+- **Endpoint POST novo sem CSRF.** Todo POST em `public/api/` chama `validate_csrf_or_fail()`. Não tem verificação automática disso, é na disciplina mesmo.
+- **HTML dinâmico sem `e()`.** Mesma história do lado do PHP.
+- **Mexer no remember-me.** É selector/validator com rotação a cada uso (modelo da Paragon Initiative). Roda `tests/Unit` antes de commitar.
+- **Cadastro de conta já existente.** O `register.php` não pode sobrescrever dados de conta não verificada com identidade diferente — isso foi um bug de account takeover, tem commit corrigindo. Se for refatorar o fluxo, preserve o comportamento.
+
+Os headers de hardening (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) vêm de `send_security_headers()`, chamado no layout base e nos endpoints JSON. A CSP ainda carrega `unsafe-inline` por causa das fontes do Google.
+
+`.env` está no `.gitignore`. O `.htaccess` já teve credencial hardcoded em algum momento — se aparecer alguma em branch antiga, é resquício e precisa sair.
+
+Contexto mais completo das decisões está em `ANALISE_MELHORIAS.md`.
+
+## Migrations
+
+Cria o arquivo com prefixo numérico e roda:
+
+```
+database/migrations/0003_orders.sql
+```
 
 ```bash
 php database/migrate.php
 ```
 
-O migrator tolera `CREATE INDEX` / `ALTER TABLE ADD COLUMN` ja existentes (codigos MySQL 1060/1061/1050), entao migrations podem ser re-rodadas com seguranca contra bases pre-existentes.
+O migrator ignora os erros 1050, 1060 e 1061 (tabela / coluna / índice já existe), então dá pra rodar em cima de base antiga sem quebrar. Não existe rollback: se precisar desfazer alguma coisa, escreve outra migration.
 
-## Convencoes de codigo
+## Convenções
 
-- Codigo novo deve ir para `src/` com namespace `App\…` (PSR-4).
-- Funcoes em `app/*.php` sao mantidas por retrocompat e devem evitar logica nova — prefira metodos em classes.
-- Strings de erro: usar acentuacao UTF-8 normal (`não`, `código`, `inválido`).
-- Toda saida HTML de dados dinamicos: passa por `e()` (PHP) ou `escapeHtml()` / `el()` (JS).
+- Código novo em `src/`, namespace `App\`, PSR-4.
+- Acentuação normal em UTF-8 nas mensagens de erro (`não`, `código`, `inválido`) — tem string antiga sem acento espalhada por aí, corrige quando passar.
+- CSS é um arquivo só e o JS não tem build. Não foi uma decisão, é como começou.
 
-## TODO conhecido
+## Pendências
 
-- Migrar do `mail()` puro para PHPMailer/Symfony Mailer com SMTP.
-- Implementar `orders` + `order_items` para mover o checkout fora do `localStorage`.
-- Self-host das fontes Google + remover `unsafe-inline` da CSP.
-- Refatorar `app/auth.php` para que as funcoes globais virem wrappers finos das classes em `src/Auth/`.
-- Internacionalizacao: extrair strings de UI para um helper `__('chave')`.
+- `mail()` puro — trocar por PHPMailer/Symfony Mailer com SMTP. A entregabilidade está ruim.
+- Checkout ainda guarda o carrinho no `localStorage`. Falta `orders` + `order_items`.
+- Self-host das fontes do Google pra conseguir tirar o `unsafe-inline` da CSP.
+- Terminar a migração `app/` → `src/`.
+- i18n: as strings de UI estão soltas dentro das views, precisa de um `__('chave')`.
